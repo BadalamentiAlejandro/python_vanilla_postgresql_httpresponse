@@ -4,7 +4,7 @@ from src.database.connection import PooledConnection
 
 class User():
 
-    def __int__(self, email, password, id=None):
+    def __init__(self, email, password, id=None):
 
         self.id = id
         self.email = email
@@ -12,7 +12,7 @@ class User():
 
 
     @staticmethod
-    def create_table():
+    def create_table() -> bool:
 
         try:
 
@@ -22,7 +22,7 @@ class User():
 
                     create_table_query = """
                     CREATE TABLE IF NOT EXISTS users (
-                        id SERIAL PRIMERY KEY,
+                        id SERIAL PRIMARY KEY,
                         email VARCHAR(255) UNIQUE NOT NULL,
                         password VARCHAR(255) NOT NULL
                     );
@@ -33,13 +33,17 @@ class User():
                 conn.commit()
 
                 print("Tabla creada o ya existente")
+                
+                return True
 
         except Exception as e:
 
             print(f"Ha ocurrido un error al crear la tabla usuarios: {e}")
 
+            return False
 
-    def save(self):
+
+    def save(self) -> bool:
 
         try:
             
@@ -57,7 +61,7 @@ class User():
                     
                     result = cursor.fetchone()
                     
-                    conn.commit
+                    conn.commit()
 
                     self.id = result["id"]
 
@@ -71,7 +75,7 @@ class User():
         
 
     @staticmethod
-    def get_all_users():
+    def get_all_users() -> list:
 
         users = []
 
@@ -81,7 +85,7 @@ class User():
 
                 with conn.cursor(cursor_factory=RealDictCursor) as cursor:
 
-                    select_query = "SELECT id, email FROM users,"
+                    select_query = "SELECT id, email FROM users"
 
                     cursor.execute(select_query)
 

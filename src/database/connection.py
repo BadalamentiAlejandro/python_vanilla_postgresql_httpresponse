@@ -6,7 +6,7 @@ from src.config.settings import DB_URL
 # Se crea una clase para hacer un pool de conexiones que se utilizará en el resto de módulos.
 # De esta manera se centraliza la conexión a la base de datos y solo se llama a la clase.
 
-connection_pool = pool.ThreadedConnectionPool(minconn=1, maxconn=10, dns=DB_URL)
+connection_pool = pool.ThreadedConnectionPool(minconn=1, maxconn=10, dsn=DB_URL)
 
 
 class PooledConnection:
