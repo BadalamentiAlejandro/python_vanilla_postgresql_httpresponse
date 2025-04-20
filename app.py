@@ -46,7 +46,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
 def run_server():
 
-    server_adress = (HOST, PORT)
+    server_adress = (HOST, int(PORT))
 
     httpd = HTTPServer(server_adress, SimpleHTTPRequestHandler)
 

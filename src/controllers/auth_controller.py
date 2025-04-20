@@ -8,7 +8,7 @@ def register_user(handler):
 
     try:
 
-        content_length = int(handler.headers.get("Content_Length", 0))
+        content_length = int(handler.headers.get("Content-Length", 0))
 
         post_data = handler.rfile.read(content_length)
 
@@ -49,7 +49,7 @@ def register_user(handler):
             return
         
 
-        hashed_password = hash_password(password, BCRYPT_SALT_ROUNDS)
+        hashed_password = hash_password(password, int(BCRYPT_SALT_ROUNDS))
 
         # Creation of the user
         user = User(email, hashed_password)
