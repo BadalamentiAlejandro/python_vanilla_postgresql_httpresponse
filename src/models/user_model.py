@@ -85,7 +85,7 @@ class User():
 
                 with conn.cursor(cursor_factory=RealDictCursor) as cursor:
 
-                    select_query = "SELECT id, email FROM users"
+                    select_query = "SELECT id, email FROM users;"
 
                     cursor.execute(select_query)
 
@@ -98,3 +98,39 @@ class User():
             print(f"Ha ocurrido un error al obtener los usuarios: {e}")
 
         return users
+    
+
+    @staticmethod
+    def get_by_email(email: str) -> dict:
+
+        user = None
+
+        try:
+
+            with PooledConnection() as conn:
+
+                with conn.cursor(cursor_factory = RealDictCursor) as cursor:
+
+                    select_query = "SELECT * FROM users WHERE email = %s;"
+
+                    cursor.execute(select_query, (email,))
+
+                    user = cursor.fetchone()
+
+                
+        except Exception as e:
+
+            print(f"Ha ocurrido un error al obtener el usuario por email: {e}")
+
+        return user
+
+    
+
+def main():
+
+    User.create_table()
+
+
+if __name__ == "__main__":
+
+    main()
