@@ -8,7 +8,7 @@ def create_jwt(user_id: int) -> str:
     expire = datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=JWT_EXPIRATION)
 
     payload = {
-        "sub": user_id,
+        "sub": str(user_id),
         "exp": expire
     }
 
@@ -29,13 +29,13 @@ def verify_jwt(token: str) -> dict:
 
 
 def get_jwt_from_response(handler) -> str:
-    auth = handler.headers.get("Authorization", "")
+    auth = handler.headers.get("Authorization")
     if not auth.startswith("Bearer "):
         send_error_response(handler, "Formato inválido. Bearer esperado", 401)
         return None
 
     try:
-        token = auth.split("", 1)[1]
+        token = auth.split(" ", 1)[1]
         return token
     
     except IndexError:

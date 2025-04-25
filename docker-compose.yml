@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:17
+    container_name: python_vanilla_db
+    ports:
+      - "5433:5432"
+    
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+    restart: unless-stopped
+
+  
+  app:
+    build: .
+    container_name: python_vanilla_app
+    ports:
+      - "8000:8000"
+    environment:
+      DB_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+
+      BCRYPT_SALT_ROUNDS: ${BCRYPT_SALT_ROUNDS}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      EMAIL_REGEX_PATTERN: ${EMAIL_REGEX_PATTERN}
+      HOST: ${HOST}
+      PORT: ${PORT}
+
+    depends_on:
+      - db
+
+    restart: unless-stopped
+
+volumes:
+  db_data:

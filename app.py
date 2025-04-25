@@ -1,5 +1,5 @@
-import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
+print("--- >>> El script app.py ha comenzado a ejecutarse dentro del contenedor <<< ---")
 from urllib.parse import urlparse
 from src.routes import auth_routes
 from src.config.settings import HOST, PORT

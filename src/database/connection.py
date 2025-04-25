@@ -1,5 +1,3 @@
-import os
-import psycopg2
 from psycopg2 import pool
 from src.config.settings import DB_URL
 
